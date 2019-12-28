@@ -3,29 +3,28 @@
 -->
 <template>
     <div id="pengz">
+        <div style="display:none">
+            <img src="../assets/image/img01.png" alt="">
+            <img src="../assets/image/img02.png" alt="">
+            <img src="../assets/image/img03.png" alt="">
+            <img src="../assets/image/img04.png" alt="">
+            <img src="../assets/image/img05.png" alt="">
+            <img src="../assets/image/img06.png" alt="">
+            <img src="../assets/image/img07.png" alt="">
+            <img src="../assets/image/img08.png" alt="">
+            <img src="../assets/image/img09.png" alt="">
+            <img src="../assets/image/img10.png" alt="">
+            <img src="../assets/image/img11.png" alt="">
+        </div>
+
         <div id="topImage">
             <img src="../assets/image/img12.png" alt="" @load="topImgLoad">
         </div>
         <div id="box" v-show="showBox">
-            <div class="pos" id="pos1"></div>
-            <div class="pos" id="pos2"></div>
-            <div class="pos" id="pos3"></div>
-            <div class="pos" id="pos4"></div>
-            <div class="pos" id="pos5"></div>
-            <div class="pos" id="pos6"></div>
-            <div class="pos" id="pos7"></div>
-            <div class="pos" id="pos8"></div>
-            <div class="pos" id="pos9"></div>
+            <div v-for="(item,index) in 9" :key="index" class="pos" :id="'pos'+(index+1)"></div>
+     
+            <div v-for="(item,index) in 9" :key="index" v-show="listState[index].show" class="pos-span" :id="'span'+(index+1)" :style="{left:listState[index].grade==1?coordinate[index].left+'px':coordinate[index].left-12+'px',top:coordinate[index].top+'px'}" @touchstart="touchstart(index+1)" @touchmove="touchmove(index+1)" @touchend="touchend(index+1)"><img :src="listState[index].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
 
-            <div v-show="listState[0].show" class="pos-span" id="span1" :style="{left:coordinate[0].left+'px',top:coordinate[0].top+'px'}" @touchstart="touchstart(1)" @touchmove="touchmove(1)" @touchend="touchend(1)"><img :src="listState[0].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[1].show" class="pos-span" id="span2" :style="{left:coordinate[1].left+'px',top:coordinate[1].top+'px'}" @touchstart="touchstart(2)" @touchmove="touchmove(2)" @touchend="touchend(2)"><img :src="listState[1].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[2].show" class="pos-span" id="span3" :style="{left:coordinate[2].left+'px',top:coordinate[2].top+'px'}" @touchstart="touchstart(3)" @touchmove="touchmove(3)" @touchend="touchend(3)"><img :src="listState[2].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[3].show" class="pos-span" id="span4" :style="{left:coordinate[3].left+'px',top:coordinate[3].top+'px'}" @touchstart="touchstart(4)" @touchmove="touchmove(4)" @touchend="touchend(4)"><img :src="listState[3].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[4].show" class="pos-span" id="span5" :style="{left:coordinate[4].left+'px',top:coordinate[4].top+'px'}" @touchstart="touchstart(5)" @touchmove="touchmove(5)" @touchend="touchend(5)"><img :src="listState[4].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[5].show" class="pos-span" id="span6" :style="{left:coordinate[5].left+'px',top:coordinate[5].top+'px'}" @touchstart="touchstart(6)" @touchmove="touchmove(6)" @touchend="touchend(6)"><img :src="listState[5].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[6].show" class="pos-span" id="span7" :style="{left:coordinate[6].left+'px',top:coordinate[6].top+'px'}" @touchstart="touchstart(7)" @touchmove="touchmove(7)" @touchend="touchend(7)"><img :src="listState[6].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[7].show" class="pos-span" id="span8" :style="{left:coordinate[7].left+'px',top:coordinate[7].top+'px'}" @touchstart="touchstart(8)" @touchmove="touchmove(8)" @touchend="touchend(8)"><img :src="listState[7].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
-            <div v-show="listState[8].show" class="pos-span" id="span9" :style="{left:coordinate[8].left+'px',top:coordinate[8].top+'px'}" @touchstart="touchstart(9)" @touchmove="touchmove(9)" @touchend="touchend(9)"><img :src="listState[8].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
         </div>
         <div id="buttonDom">
             <div id="buttonD1">
@@ -36,7 +35,6 @@
                 <img src="../assets/image/img09.png" alt="">
             </div>
         </div>
-        <!-- <button @click="addItem">添加</button> -->
     </div>
 </template>
 
@@ -59,9 +57,13 @@ export default {
             pos7:null,
             pos8:null,
             pos9:null,
-            dfdistance1:0,
-            dfdistance2:0,
-            dfdistance3:0,
+
+            dfdistanceTop1:0,
+            dfdistanceTop2:0,
+            dfdistanceTop3:0,
+            dfdistanceLeft1:0,
+            dfdistanceLeft2:0,
+            dfdistanceLeft3:0,
 
             t1:0,l1:0,r1:0,b1:0,t2:0,l2:0,r2:0,b2:0,
             t3:0,l3:0,r3:0,b3:0,t4:0,l4:0,r4:0,b4:0,
@@ -92,8 +94,10 @@ export default {
                 {show:false,grade:0},
                 {show:false,grade:0},
             ],
-            topImgHeight:0,
+            tophongbaoHeight:0,
             showBox:false,
+            hongbaoW:0,
+            hongbaoH:0,
         }
     },
 
@@ -115,123 +119,144 @@ export default {
 
     },
     methods:{
+        getDom(){
+            this.bodyW = $('body').width();
+            this.bodyH = $('body').height();
+            this.pos1 = $('#span1');
+            this.pos2 = $('#span2');
+            this.pos3 = $('#span3');
+            this.pos4 = $('#span4');
+            this.pos5 = $('#span5');
+            this.pos6 = $('#span6');
+            this.pos7 = $('#span7');
+            this.pos8 = $('#span8');
+            this.pos9 = $('#span9');
+        },
         topImgLoad(){
-            this.topImgHeight = $("#topImage").height();
+            this.tophongbaoHeight = $("#topImage").height();
             this.defaultWH();
             this.showBox = true;
         },
         // 初始化宽高度
         defaultWH(){
             this.$nextTick(()=>{
-                this.bodyW = $('body').width();
-                this.bodyH = $('body').height();
-                this.pos1 = $('#span1');
-                this.pos2 = $('#span2');
-                this.pos3 = $('#span3');
-                this.pos4 = $('#span4');
-                this.pos5 = $('#span5');
-                this.pos6 = $('#span6');
-                this.pos7 = $('#span7');
-                this.pos8 = $('#span8');
-                this.pos9 = $('#span9');
-
-                let boxW = this.bodyW-40;
-                let posW = parseFloat(boxW/3.06);//除法有问题
+                this.getDom();
+                let boxH = this.bodyH - this.tophongbaoHeight - 90;
+                let boxW =  this.bodyW;
+                let posH = 0;
+                let posW = 0;
+                let posSpanW = 0;
+                let tudiT = 0;
                 
+                posW = parseFloat(boxW/3);//除法有问题
+                posH = parseFloat(boxH/3);
+                if(posH>posW){
+                    posH = posW
+                }
+                posSpanW = 0.6*posW
+                this.hongbaoH = posSpanW/1.057
+                this.hongbaoW = posSpanW;
+                tudiT = 0.8*posH
 
-                this.dfdistance1 = (posW-50)/2;
-                this.dfdistance2 = (posW-50)/2+posW;
-                this.dfdistance3 = (posW-50)/2+(posW*2);
+                this.dfdistanceTop1 = (tudiT - this.hongbaoH)+2;
+                this.dfdistanceTop2 = (tudiT - this.hongbaoH)+posH+2;
+                this.dfdistanceTop3 = (tudiT - this.hongbaoH)+(posH*2)+2;
 
-                $("#box").width(boxW);
-                $("#box").height(boxW);
+                this.dfdistanceLeft1 = (posW-posSpanW)/2 + 10;
+                this.dfdistanceLeft2 = (posW-posSpanW)/2+posW+ 10;
+                this.dfdistanceLeft3 = (posW-posSpanW)/2+(posW*2)+ 10;
+
+
                 $(".pos").width(posW);
-                $(".pos").height(posW);
+                $(".pos").height(posH);
+                $(".pos-span").width(posSpanW);
 
                 {//设置初始位置
-                    this.coordinate[0].top = this.dfdistance1;
-                    this.coordinate[0].left = this.dfdistance1;
+                    this.coordinate[0].top = this.dfdistanceTop1;
+                    this.coordinate[0].left = this.dfdistanceLeft1;
 
-                    this.coordinate[1].top = this.dfdistance1;
-                    this.coordinate[1].left = this.dfdistance2;
+                    this.coordinate[1].top = this.dfdistanceTop1;
+                    this.coordinate[1].left = this.dfdistanceLeft2;
 
-                    this.coordinate[2].top = this.dfdistance1;
-                    this.coordinate[2].left = this.dfdistance3;
+                    this.coordinate[2].top = this.dfdistanceTop1;
+                    this.coordinate[2].left = this.dfdistanceLeft3;
 
-                    this.coordinate[3].top = this.dfdistance2;
-                    this.coordinate[3].left = this.dfdistance1;
+                    this.coordinate[3].top = this.dfdistanceTop2;
+                    this.coordinate[3].left = this.dfdistanceLeft1;
 
-                    this.coordinate[4].top = this.dfdistance2;
-                    this.coordinate[4].left = this.dfdistance2;
+                    this.coordinate[4].top = this.dfdistanceTop2;
+                    this.coordinate[4].left = this.dfdistanceLeft2;
 
-                    this.coordinate[5].top = this.dfdistance2;
-                    this.coordinate[5].left = this.dfdistance3;
+                    this.coordinate[5].top = this.dfdistanceTop2;
+                    this.coordinate[5].left = this.dfdistanceLeft3;
 
-                    this.coordinate[6].top = this.dfdistance3;
-                    this.coordinate[6].left = this.dfdistance1;
+                    this.coordinate[6].top = this.dfdistanceTop3;
+                    this.coordinate[6].left = this.dfdistanceLeft1;
 
-                    this.coordinate[7].top = this.dfdistance3;
-                    this.coordinate[7].left = this.dfdistance2;
+                    this.coordinate[7].top = this.dfdistanceTop3;
+                    this.coordinate[7].left = this.dfdistanceLeft2;
 
-                    this.coordinate[8].top = this.dfdistance3;
-                    this.coordinate[8].left = this.dfdistance3;
+                    this.coordinate[8].top = this.dfdistanceTop3;
+                    this.coordinate[8].left = this.dfdistanceLeft3;
                 }
 
                 let boxWidth = 50;//圆形的宽度
                 let boxHeight = 50;//圆形的高度
                 {//保存初始位置
-                    this.t1 = this.dfdistance1;
-                    this.l1 = this.dfdistance1;
-                    this.r1 = this.dfdistance1 + boxWidth;
-                    this.b1 = this.dfdistance1 + boxHeight;
+                    this.t1 = this.dfdistanceTop1;
+                    this.l1 = this.dfdistanceLeft1;
+                    this.r1 = this.dfdistanceLeft1 + boxWidth;
+                    this.b1 = this.dfdistanceTop1 + boxHeight;
 
-                    this.t2 = this.dfdistance1;
-                    this.l2 = this.dfdistance2;
-                    this.r2 = this.dfdistance2 + boxWidth;
-                    this.b2 = this.dfdistance1 + boxHeight;
+                    this.t2 = this.dfdistanceTop1;
+                    this.l2 = this.dfdistanceLeft2;
+                    this.r2 = this.dfdistanceLeft2 + boxWidth;
+                    this.b2 = this.dfdistanceTop1 + boxHeight;
 
-                    this.t3 = this.dfdistance1;
-                    this.l3 = this.dfdistance3;
-                    this.r3 = this.dfdistance3 + boxWidth;
-                    this.b3 = this.dfdistance1 + boxHeight;
+                    this.t3 = this.dfdistanceTop1;
+                    this.l3 = this.dfdistanceLeft3;
+                    this.r3 = this.dfdistanceLeft3 + boxWidth;
+                    this.b3 = this.dfdistanceTop1 + boxHeight;
 
-                    this.t4 = this.dfdistance2;
-                    this.l4 = this.dfdistance1;
-                    this.r4 = this.dfdistance1 + boxWidth;
-                    this.b4 = this.dfdistance2 + boxHeight;
+                    this.t4 = this.dfdistanceTop2;
+                    this.l4 = this.dfdistanceLeft1;
+                    this.r4 = this.dfdistanceLeft1 + boxWidth;
+                    this.b4 = this.dfdistanceTop2 + boxHeight;
 
-                    this.t5 = this.dfdistance2;
-                    this.l5 = this.dfdistance2;
-                    this.r5 = this.dfdistance2 + boxWidth;
-                    this.b5 = this.dfdistance2 + boxHeight;
+                    this.t5 = this.dfdistanceTop2;
+                    this.l5 = this.dfdistanceLeft2;
+                    this.r5 = this.dfdistanceLeft2 + boxWidth;
+                    this.b5 = this.dfdistanceTop2 + boxHeight;
 
-                    this.t6 = this.dfdistance2;
-                    this.l6 = this.dfdistance3;
-                    this.r6 = this.dfdistance3 + boxWidth;
-                    this.b6 = this.dfdistance2 + boxHeight;
+                    this.t6 = this.dfdistanceTop2;
+                    this.l6 = this.dfdistanceLeft3;
+                    this.r6 = this.dfdistanceLeft3 + boxWidth;
+                    this.b6 = this.dfdistanceTop2 + boxHeight;
 
-                    this.t7 = this.dfdistance3;
-                    this.l7 = this.dfdistance1;
-                    this.r7 = this.dfdistance1 + boxWidth;
-                    this.b7 = this.dfdistance3 + boxHeight;
+                    this.t7 = this.dfdistanceTop3;
+                    this.l7 = this.dfdistanceLeft1;
+                    this.r7 = this.dfdistanceLeft1 + boxWidth;
+                    this.b7 = this.dfdistanceTop3 + boxHeight;
 
-                    this.t8 = this.dfdistance3;
-                    this.l8 = this.dfdistance2;
-                    this.r8 = this.dfdistance2 + boxWidth;
-                    this.b8 = this.dfdistance3 + boxHeight;
+                    this.t8 = this.dfdistanceTop3;
+                    this.l8 = this.dfdistanceLeft2;
+                    this.r8 = this.dfdistanceLeft2 + boxWidth;
+                    this.b8 = this.dfdistanceTop3 + boxHeight;
 
-                    this.t9 = this.dfdistance3;
-                    this.l9 = this.dfdistance3;
-                    this.r9 = this.dfdistance3 + boxWidth;
-                    this.b9 = this.dfdistance3 + boxHeight;
+                    this.t9 = this.dfdistanceTop3;
+                    this.l9 = this.dfdistanceLeft3;
+                    this.r9 = this.dfdistanceLeft3 + boxWidth;
+                    this.b9 = this.dfdistanceTop3 + boxHeight;
                 }
                 
             })
         },
         touchstart(index){//index不能用做数组下标，应减一
+            this.getDom();
             this.choiseIndex = index;
             let ev = event.targetTouches[0]|| window.event;
             this[`pos${index}`].css("transition","all 0s");
+            this[`pos${index}`].css("z-index","100");
         },
         touchmove(index){
             this.choiseIndex = index;
@@ -242,8 +267,8 @@ export default {
 
 
 
-            this.coordinate[arryIndex].left = ev.clientX - domx - 45;
-            this.coordinate[arryIndex].top = ev.clientY - domy - this.topImgHeight;
+            this.coordinate[arryIndex].left = ev.clientX - domx - (this.hongbaoW/2);
+            this.coordinate[arryIndex].top = ev.clientY - domy - this.tophongbaoHeight - (this.hongbaoH/2);
 
             // let newt1 = this.coordinate[arryIndex].top;
             // let newr1 = this.coordinate[arryIndex].left + 50;
@@ -286,58 +311,58 @@ export default {
             }
 
             if(TouchTF&&TouchIndex>0&&TouchIndex<10){//有触碰，判断等级一致才合并
-                console.log("碰到了第"+TouchIndex+"个");
-                if(this.listState[arryIndex].grade==this.listState[TouchIndex-1].grade){
+                console.log("第"+index+"个"+"碰到了第"+TouchIndex+"个");
+                if(this.listState[arryIndex].grade==1&&this.listState[TouchIndex-1].grade==1){
                     this.listState[arryIndex].show = false;
                     this.listState[arryIndex].grade = 0;
-
-
                     this.listState[TouchIndex-1].grade = 2;
-                    // this[`pos${TouchIndex}`].css("background","red");
+                }else if(this.listState[arryIndex].grade==2&&this.listState[TouchIndex-1].grade==2){
+                    console.log("此处应该弹出中奖页面");
+                    this.listState[arryIndex].show = false;
+
                 }else{
                     this.recoveryDf(index);
-                    this[`pos${index}`].css("transition","all 0.5s");
                 }
-                
+                this[`pos${index}`].css("transition","all 0.5s");
+                this[`pos${index}`].css("z-index","0");
 
             }else{//无触碰
                 this.recoveryDf(index);
                 this[`pos${index}`].css("transition","all 0.5s");
+                this[`pos${index}`].css("z-index","0");
             }
-
-
         },
 
         // 恢复默认地方
         recoveryDf(index){
             switch(index){
                 case 1:
-                    this.coordinate[0].top = this.dfdistance1;
-                    this.coordinate[0].left = this.dfdistance1;
+                    this.coordinate[0].top = this.dfdistanceTop1;
+                    this.coordinate[0].left = this.dfdistanceLeft1;
                 case 2:
-                    this.coordinate[1].top = this.dfdistance1;
-                    this.coordinate[1].left = this.dfdistance2;
+                    this.coordinate[1].top = this.dfdistanceTop1;
+                    this.coordinate[1].left = this.dfdistanceLeft2;
                 case 3:
-                    this.coordinate[2].top = this.dfdistance1;
-                    this.coordinate[2].left = this.dfdistance3;
+                    this.coordinate[2].top = this.dfdistanceTop1;
+                    this.coordinate[2].left = this.dfdistanceLeft3;
                 case 4:
-                    this.coordinate[3].top = this.dfdistance2;
-                    this.coordinate[3].left = this.dfdistance1;
+                    this.coordinate[3].top = this.dfdistanceTop2;
+                    this.coordinate[3].left = this.dfdistanceLeft1;
                 case 5:
-                    this.coordinate[4].top = this.dfdistance2;
-                    this.coordinate[4].left = this.dfdistance2;
+                    this.coordinate[4].top = this.dfdistanceTop2;
+                    this.coordinate[4].left = this.dfdistanceLeft2;
                 case 6:
-                    this.coordinate[5].top = this.dfdistance2;
-                    this.coordinate[5].left = this.dfdistance3;
+                    this.coordinate[5].top = this.dfdistanceTop2;
+                    this.coordinate[5].left = this.dfdistanceLeft3;
                 case 7:
-                    this.coordinate[6].top = this.dfdistance3;
-                    this.coordinate[6].left = this.dfdistance1;
+                    this.coordinate[6].top = this.dfdistanceTop3;
+                    this.coordinate[6].left = this.dfdistanceLeft1;
                 case 8:
-                    this.coordinate[7].top = this.dfdistance3;
-                    this.coordinate[7].left = this.dfdistance2;
+                    this.coordinate[7].top = this.dfdistanceTop3;
+                    this.coordinate[7].left = this.dfdistanceLeft2;
                 case 9:
-                    this.coordinate[8].top = this.dfdistance3;
-                    this.coordinate[8].left = this.dfdistance3;
+                    this.coordinate[8].top = this.dfdistanceTop3;
+                    this.coordinate[8].left = this.dfdistanceLeft3;
             }
         },
 
@@ -394,15 +419,14 @@ export default {
         }
     }
     #box{
+        display: table;
+
         width:100%;
         height: auto;
         // background:#eee;
         box-sizing: border-box;
-        // overflow: hidden;
         margin:0 auto;
         position:relative;
-        // border: solid 1px;
-        
     }
     .pos{
             display: inline-block;
@@ -413,8 +437,8 @@ export default {
             float:left;
             // border:solid 1px;
             background: url("../assets/image/img04.png") no-repeat;
-            background-size: 80%;
-            background-position: bottom center;
+            background-size: 75%;
+            background-position: 50% 80%;
             font-size: 0;
             
         }
@@ -422,10 +446,9 @@ export default {
             position: absolute;
             display: inline-block;
             width:50px;
-            height: 50px;
+            height: auto;
             // border-radius: 25px;
             color:#fff;
-            line-height: 50px;
             position:absolute;
             top:0;
             left:0;
