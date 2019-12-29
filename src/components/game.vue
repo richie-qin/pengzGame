@@ -360,7 +360,7 @@ export default {
             }
 
             if(TouchTF&&TouchIndex>0&&TouchIndex<10){//有触碰，判断等级一致才合并
-                console.log("第"+this.choiseIndex+"个"+"碰到了第"+TouchIndex+"个");
+                // console.log("第"+this.choiseIndex+"个"+"碰到了第"+TouchIndex+"个");
                 if(this.listState[arryIndex].grade==1&&this.listState[TouchIndex-1].grade==1){
                     this.listState[arryIndex].show = false;
                     this.listState[arryIndex].grade = 0;
@@ -386,7 +386,7 @@ export default {
                     this[`pos${index}`].css("transition","all 0s");
                     clearInterval(this[`setInterval${index}`]);
                 }else{
-                    console.log("归位");
+                    // console.log("归位");
                     this.recoveryDf(index);
                     this[`pos${index}`].css("transition","all 0.5s");
                 }
@@ -458,7 +458,7 @@ export default {
                         this.intIntegral-=1000;
                         this.setTime(i);
                     }else{
-                        console.log("积分不足");
+                        // console.log("积分不足");
                         this.noIntegral = true;
                         clearTimeout(this.noIntegralTime);
                         this.noIntegralTime = setTimeout(() => {
