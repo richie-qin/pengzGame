@@ -20,7 +20,7 @@
             <div id="head"><img src="../assets/image/img13.png" alt=""></div>
             <div id="userId">248797</div>
         </div>
-        <div id="userGrade" :style="{top:gradeTop+'px'}">当前等级:LV2</div>
+        <div id="userGrade" :style="{top:gradeTop+'px'}">当前等级:LV{{intGrade}}</div>
         <div id="userIntegral" :style="{top:integralTop+'px'}"><img src="../assets/image/img14.png" alt=""><span>{{intIntegral}}</span></div>
         <div id="topImage">
             <img src="../assets/image/img12.png" alt="" @load="topImgLoad">
@@ -30,7 +30,7 @@
                 <div id="ProfitDom"  :class="listState[index].show?'ProfitAnima':''"><img src="../assets/image/img14.png" alt=""><span>+{{currentNum[index]}}</span></div>
             </div>
      
-            <div v-for="(item,index) in 9" :key="index" v-show="listState[index].show" class="pos-span" :id="'span'+(index+1)" :style="{left:listState[index].grade==1?coordinate[index].left+'px':coordinate[index].left-12+'px',top:coordinate[index].top+'px'}" @touchstart="touchstart(index+1)" @touchmove="touchmove(index+1)" @touchend="touchend(index+1)"><img :src="listState[index].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
+            <div v-for="(item,index) in 9" :key="index" v-show="listState[index].show" class="pos-span" :id="'span'+(index+1)" :style="{left:listState[index].grade==1?coordinate[index].left+'px':coordinate[index].left-12+'px',top:coordinate[index].top+'px'}" @touchstart.prevent="touchstart(index+1)" @touchmove.prevent="touchmove(index+1)" @touchend.prevent="touchend(index+1)"><img :src="listState[index].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
 
         </div>
         <div id="buttonDom">
@@ -39,7 +39,7 @@
                 <img src="../assets/image/img07.png" alt="" id="button07">
             </div>
             <div id="buttonD2">
-                <img src="../assets/image/img09.png" alt="">
+                <img src="../assets/image/img09.png" alt="" @click="Todownload">
             </div>
         </div>
         <!-- 中奖了 -->
@@ -64,7 +64,16 @@
         </div>
 
         <!-- 积分不足 -->
-        <span id="noIntegral" v-show="noIntegral">人气不足，请稍等~</span>
+        <div id="noIntegral" v-show="noIntegral">人气不足，请稍等~</div>
+            
+        <div id="guide1" v-show="showGuide">
+            <div v-show="showGuide1" id="guideText1">{{guideText1}}</div>
+        </div>
+
+        <div id="guide2" v-show="showGuide2" @touchstart.prevent="hideGuide2">
+            <div :style="{top:(tophongbaoHeight-25)+'px'}">滑动收获奖励</div>
+            <img :style="{top:(tophongbaoHeight+hongbaoH/2)+'px'}" src="../assets/image/img15.png" alt="">
+        </div>
     </div>
 </template>
 
@@ -140,7 +149,6 @@ export default {
             intIntegral:7000,//当前积分
             currentNum:[171,135,198,225,315,156,119,275,310],
             numArr:[100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575],
-            onesGoHome:0,
             setInterval1:null,
             setInterval2:null,
             setInterval3:null,
@@ -150,8 +158,22 @@ export default {
             setInterval7:null,
             setInterval8:null,
             setInterval9:null,
-            noIntegralTime:null,
 
+            setTiemout1:null,
+            setTiemout2:null,
+            setTiemout3:null,
+            setTiemout4:null,
+            setTiemout5:null,
+            setTiemout6:null,
+            setTiemout7:null,
+            setTiemout8:null,
+            setTiemout9:null,
+            noIntegralTime:null,
+            addNum:0,//点击第几次
+            showGuide:true,
+            showGuide2:false,
+            guideText1:"点击种植福袋",
+            showGuide1:true,
         }
     },
 
@@ -366,12 +388,15 @@ export default {
                     this.listState[arryIndex].grade = 0;
                     this.listState[TouchIndex-1].grade = 2;
                     clearInterval(this[`setInterval${index}`]);
+                    clearTimeout(this[`setTiemout${index}`]);
                 }else if(this.listState[arryIndex].grade==2&&this.listState[TouchIndex-1].grade==2){
                     // console.log("此处应该弹出中奖页面");
                     this.listState[arryIndex].show = false;
                     this.listState[arryIndex].grade = 0;
                     this.showWin = true;
                     clearInterval(this[`setInterval${index}`]);
+                    clearTimeout(this[`setTiemout${index}`]);
+
                 }else{
                     this.recoveryDf(index);
                 }
@@ -385,6 +410,8 @@ export default {
                     this.listState[arryIndex].grade = 0;
                     this[`pos${index}`].css("transition","all 0s");
                     clearInterval(this[`setInterval${index}`]);
+                    clearTimeout(this[`setTiemout${index}`]);
+                    this.intIntegral +=800;
                 }else{
                     // console.log("归位");
                     this.recoveryDf(index);
@@ -435,19 +462,28 @@ export default {
                 newArry1[index] = that.randomNum();
                 that.intIntegral+=newArry1[index];
                 that.currentNum = JSON.parse(JSON.stringify(newArry1));
-            }, 9800);
+            }, 8000);
 
         },
         setTime(index){
             let that = this;
-            setTimeout(() => {
+            clearTimeout(that[`setTiemout${index+1}`]);
+            that[`setTiemout${index+1}`] = setTimeout(() => {
                 that.intIntegral+=that.currentNum[index];
                 that.setInter(index);
-            }, 4500);
+            }, 3500);
             
         },
         //空位填充
         addItem(){
+            this.addNum++;
+            if(this.addNum==1){
+                this.guideText1 = "再次点击种植福袋"
+            }else if(this.addNum==2){
+                this.showGuide = false;
+                this.showGuide2 = true;
+            }else if(this.addNum>=3){
+            }
             let newArry = JSON.parse(JSON.stringify(this.listState));
             for(let i=0;i<newArry.length;i++){
                 if(!newArry[i].show){
@@ -482,6 +518,12 @@ export default {
         },
         randomNum(minNum=100,maxNum=500){ 
             return parseInt(Math.random()*(maxNum-minNum)+minNum);
+        },
+        hideGuide2(){
+            this.showGuide2 = false;
+        },
+        Todownload(){
+            window.location.href = "https://ad.toutiao.com/advertiser_package/dl/682e9ea2_1651167049547788_1574771897208"
         }
 
     },
@@ -493,27 +535,50 @@ export default {
     watch:{
         intIntegral(val,old){
             if(val>=0&&val<4999){
-                this.intGrade = 1;
+                if(this.intGrade<=1){
+                    this.intGrade = 1;
+                }
             }else if(val>=5000&&val<9999){
                 this.intGrade = 2;
+                if(this.intGrade<=2){
+                    this.intGrade = 2;
+                }
             }else if(val>=10000&&val<14999){
-                this.intGrade = 3;
+                if(this.intGrade<=3){
+                    this.intGrade = 3;
+                }
             }else if(val>=15000&&val<19999){
-                this.intGrade = 4;
+                if(this.intGrade<=4){
+                    this.intGrade = 4;
+                }
             }else if(val>=20000&&val<24999){
-                this.intGrade = 5;
+                if(this.intGrade<=5){
+                    this.intGrade = 5;
+                }
             }else if(val>=25000&&val<29999){
-                this.intGrade = 6;
+                if(this.intGrade<=6){
+                    this.intGrade = 6;
+                }
             }else if(val>=30000&&val<34999){
-                this.intGrade = 7;
+                if(this.intGrade<=7){
+                    this.intGrade = 7;
+                }
             }else if(val>=35000&&val<39999){
-                this.intGrade = 8;
+                if(this.intGrade<=8){
+                    this.intGrade = 8;
+                }
             }else if(val>=40000&&val<44999){
-                this.intGrade = 9;
+                if(this.intGrade<=9){
+                    this.intGrade = 9;
+                }
             }else if(val>=45000&&val<49999){
-                this.intGrade = 10;
+                if(this.intGrade<=10){
+                    this.intGrade = 10;
+                }
             }else if(val>=50000&&val<54999){
-                this.intGrade = 11;
+                if(this.intGrade<=11){
+                    this.intGrade = 11;
+                }
             }
         }
     },
@@ -627,7 +692,7 @@ export default {
             width:30vw;
             height: 30vw;
             box-sizing: border-box;
-            overflow: hidden;
+            // overflow: hidden;
             float:left;
             // border:solid 1px;
             background: url("../assets/image/img04.png") no-repeat;
@@ -670,9 +735,11 @@ export default {
                     vertical-align: middle;
                 }
                 #button08{
-                    margin-left: 18%;
+                    margin-left: 15%;
                     height: 35px;
                     vertical-align: middle;
+                    z-index: 11;
+                    position: relative;
                 }
             }
             #buttonD2{
@@ -784,7 +851,7 @@ export default {
 }
 .ProfitAnima{
     animation-name: myAnimaiton;
-    animation-duration: 10s;
+    animation-duration: 8s;
     animation-iteration-count:infinite;
 }
 #ProfitDom{
@@ -793,6 +860,7 @@ export default {
     top: 100%;
     opacity: 0;
     transform: translate(-50%);
+    z-index: 1;
     img{
         width: 20px;
         height: auto;
@@ -837,7 +905,61 @@ export default {
     transform: translate(-50%,-50%);
     background: rgba(0,0,0,0.5);
     padding: 5px 15px;
-    width: fit-content;
+    display: table;
     border-radius: 5px;
+    width: 60%;
+    max-width: 250px;
+}
+#guide1{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    left: 0;
+    z-index: 10;
+    #guideText1{
+        font-size: 6vw;
+        color: #fff;
+        font-weight: 500;
+        position: absolute;
+        bottom: 100px;
+        width: 100%;
+        text-align: center;
+    }
+}
+#guide2{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    left: 0;
+    z-index: 12;
+    div{
+        position: absolute;
+        font-size: 5vw;
+        color: #fff;
+        font-weight: 500;
+        left: 15%;
+    }
+    img{
+        width: 45px;
+        height: auto;
+        position: absolute;
+        left: 15%;
+        animation-name: guideAnimation;
+        animation-duration: 1s;
+        animation-iteration-count:infinite;
+    }
+
+}
+@keyframes guideAnimation {
+    0% {
+        left: 15%;
+    }
+    100% {
+        left: 45%;
+    }
 }
 </style>
