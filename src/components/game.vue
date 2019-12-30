@@ -1,6 +1,3 @@
-<!--
-    *404页面
--->
 <template>
     <div id="pengz">
         <div style="display:none">
@@ -35,11 +32,15 @@
         </div>
         <div id="buttonDom">
             <div id="buttonD1">
-                <img src="../assets/image/img08.png" alt="" id="button08" @click="addItem">
+                <div id="button08" @click="addItem">
+                    <p id="p1">Lv.{{intGrade}}</p>
+                    <p id="p2">消耗1000福气值</p>
+                </div>
                 <img src="../assets/image/img07.png" alt="" id="button07">
             </div>
             <div id="buttonD2">
                 <img src="../assets/image/img09.png" alt="" @click="Todownload">
+                <div><span></span></div>
             </div>
         </div>
         <!-- 中奖了 -->
@@ -523,7 +524,8 @@ export default {
             this.showGuide2 = false;
         },
         Todownload(){
-            window.location.href = "https://ad.toutiao.com/advertiser_package/dl/682e9ea2_1651167049547788_1574771897208"
+            window.playableSDK.openAppStore();
+            // window.location.href = "https://ad.toutiao.com/advertiser_package/dl/682e9ea2_1651167049547788_1574771897208"
         }
 
     },
@@ -535,48 +537,56 @@ export default {
     watch:{
         intIntegral(val,old){
             if(val>=0&&val<4999){
-                if(this.intGrade<=1){
+                if(this.intGrade<1){
                     this.intGrade = 1;
                 }
             }else if(val>=5000&&val<9999){
-                this.intGrade = 2;
-                if(this.intGrade<=2){
+                if(this.intGrade<2){
                     this.intGrade = 2;
                 }
             }else if(val>=10000&&val<14999){
-                if(this.intGrade<=3){
+                if(this.intGrade<3){
+                    this.showUpgraded = true;
                     this.intGrade = 3;
                 }
             }else if(val>=15000&&val<19999){
-                if(this.intGrade<=4){
+                if(this.intGrade<4){
+                    this.showUpgraded = true;
                     this.intGrade = 4;
                 }
             }else if(val>=20000&&val<24999){
-                if(this.intGrade<=5){
+                if(this.intGrade<5){
+                    this.showUpgraded = true;
                     this.intGrade = 5;
                 }
             }else if(val>=25000&&val<29999){
-                if(this.intGrade<=6){
+                if(this.intGrade<6){
+                    this.showUpgraded = true;
                     this.intGrade = 6;
                 }
             }else if(val>=30000&&val<34999){
-                if(this.intGrade<=7){
+                if(this.intGrade<7){
+                    this.showUpgraded = true;
                     this.intGrade = 7;
                 }
             }else if(val>=35000&&val<39999){
-                if(this.intGrade<=8){
+                if(this.intGrade<8){
+                    this.showUpgraded = true;
                     this.intGrade = 8;
                 }
             }else if(val>=40000&&val<44999){
-                if(this.intGrade<=9){
+                if(this.intGrade<9){
+                    this.showUpgraded = true;
                     this.intGrade = 9;
                 }
             }else if(val>=45000&&val<49999){
-                if(this.intGrade<=10){
+                if(this.intGrade<10){
+                    this.showUpgraded = true;
                     this.intGrade = 10;
                 }
             }else if(val>=50000&&val<54999){
-                if(this.intGrade<=11){
+                if(this.intGrade<11){
+                    this.showUpgraded = true;
                     this.intGrade = 11;
                 }
             }
@@ -737,22 +747,92 @@ export default {
                 #button08{
                     margin-left: 15%;
                     height: 35px;
+                    width: 37.47%;
+                    display: inline-block;
                     vertical-align: middle;
                     z-index: 11;
                     position: relative;
+                    background: orange;
+                    font-size: 0;
+                    color: #fff;
+                    font-weight: bold;
+                    #p1{
+                        display: block;
+                        height: 20px;
+                        line-height: 23px;
+                        font-size: 16px;
+                    }
+                    #p2{
+                        display: block;
+                        height: 15px;
+                        line-height: 13px;
+                        font-size: 12px;
+                    }
                 }
             }
             #buttonD2{
                 height: 35px;
                 width: 100%;
                 margin: 10px 0;
+                font-size: 0;
+                position: relative;
                 img{
                     height: 100%;
                     width: auto;
                 }
+                div{
+                    position: absolute;
+                    top: 15%;
+                    left: 35%;
+                    height: 70%;
+                    width: 30%;
+                    font-size: 0;
+                    overflow: hidden;
+                }
+                span{
+                    width: 30px;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: -30px;
+                    background-image: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.8));
+                    animation-name: textAnimaiton;
+                    animation-duration: 1s;
+                    animation-timing-function: linear;
+                    animation-iteration-count:infinite;
+                    border-radius: 5px;
+                }
             }
             
         }
+        @keyframes textAnimaiton {
+            0%{
+                left: -30px;
+            }
+            100%{
+                left: 100%;
+            }
+        }
+@keyframes hbAnimaiton {
+    0% {
+        transform:rotate(10deg);
+    }
+    35%{
+        transform:rotate(10deg);
+    }
+    50%{
+        transform:rotate(-30deg);
+    }
+    65%{
+        transform:rotate(30deg);
+    }
+    80%{
+        transform:rotate(10deg);
+    }
+    100% {
+        transform:rotate(10deg);
+    }
+    }
 #winning{
     position: absolute;
     left: 0;
@@ -769,6 +849,9 @@ export default {
         width: 55px;
         height: auto;
         transform:rotate(10deg);
+        animation-name: hbAnimaiton;
+        animation-duration: 2s;
+        animation-iteration-count:infinite;
     }
     #centerBox{
         text-align: center;
@@ -818,6 +901,9 @@ export default {
         width: 55px;
         height: auto;
         transform:rotate(10deg);
+        animation-name: hbAnimaiton;
+        animation-duration: 2s;
+        animation-iteration-count:infinite;
     }
     #centerBox2{
         text-align: center;
