@@ -49,7 +49,7 @@
             <div id="centerBox">
                 <img src="../assets/image/img02.png" alt="" id="popupImg1">
                 <img src="../assets/image/img03.png" alt="" id="popupImg2" @click="closeP(1)">
-                <img src="../assets/image/img01.png" alt="" id="popupImg3">
+                <img src="../assets/image/img01.png" alt="" id="popupImg3" @click="Todownload">
             </div>
         </div>
 
@@ -58,9 +58,12 @@
             <img src="../assets/image/img06.png" alt="" id="upgradedHB">
             <div id="centerBox2">
                 <img src="../assets/image/img10.png" alt="" id="popupImg4">
-                <img src="../assets/image/img11.png" alt="" id="popupImg5">
-                <img src="../assets/image/img03.png" alt="" id="popupImg6" @click="closeP(2)">
-
+                <div id="popupImg5">
+                    <img src="../assets/image/img16.png" alt="" id="gqImg">
+                    <img src="../assets/image/img05.png" alt="" id="jbImg">
+                </div>
+                <img src="../assets/image/img17.png" alt="" id="xzButton1" @click="closeP(2)">
+                <img src="../assets/image/img18.png" alt="" id="xzButton2" @click="Todownload">
             </div>
         </div>
 
@@ -752,7 +755,8 @@ export default {
                     vertical-align: middle;
                     z-index: 11;
                     position: relative;
-                    background: orange;
+                    background:url('../assets/image/img08.png') no-repeat;
+                    background-size: 100% 100%; 
                     font-size: 0;
                     color: #fff;
                     font-weight: bold;
@@ -760,7 +764,7 @@ export default {
                         display: block;
                         height: 20px;
                         line-height: 23px;
-                        font-size: 16px;
+                        font-size: 15px;
                     }
                     #p2{
                         display: block;
@@ -923,15 +927,42 @@ export default {
         #popupImg5{
             width:100%;
             height: auto;
-            display: block;
             margin: 0 auto;
+            position: relative;
+            #gqImg{
+                width:100%;
+                height: auto;
+                animation-name: xzAnimaiton;
+                animation-duration: 7s;
+                animation-iteration-count:infinite;
+                animation-timing-function: linear;
+            }
+            #jbImg{
+                position: absolute;
+                top: 50%;
+                left:50%;
+                transform: translate(-50%,-50%);
+                width: 40%;
+                height: auto;
+            }
         }
-        #popupImg6{
-            width: 25px;
+        #xzButton1{
+            width: 90%;
             height: auto;
-            display: block;
-            margin: 20px auto;
+            margin: 10px 0;
         }
+        #xzButton2{
+            width: 90%;
+            height: auto;
+        }
+    }
+}
+@keyframes xzAnimaiton {
+    0%{
+        transform:rotate(0deg);
+    }
+    100%{
+        transform:rotate(360deg);
 
     }
 }
