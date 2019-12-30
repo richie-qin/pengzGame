@@ -535,9 +535,6 @@ export default {
             console.log(window.playableSDK);
             window.playableSDK.openAppStore();
         },
-        abv(){
-            console.log("bbbbb")
-        }
 
     },
 
