@@ -83,6 +83,8 @@
 
 <script>
 import $ from "jquery"
+import Vconsole from 'vconsole'
+
 export default {
     data() {
         return {
@@ -186,7 +188,10 @@ export default {
     },
 
     created(){
-        
+        if(this.$route.query.open=="openvc"){
+            const vConsole = new Vconsole()
+            Vue.use(vConsole)
+        }
     },
 
     mounted(){
