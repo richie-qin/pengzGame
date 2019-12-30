@@ -39,8 +39,8 @@
                 <img src="../assets/image/img07.png" alt="" id="button07">
             </div>
             <div id="buttonD2">
-                <img src="../assets/image/img09.png" alt="" @click="Todownload">
-                <div><span></span></div>
+                <img src="../assets/image/img09.png" alt="" @click="Todownload()">
+                <div @click="Todownload()"><span></span></div>
             </div>
         </div>
         <!-- 中奖了 -->
@@ -49,7 +49,7 @@
             <div id="centerBox">
                 <img src="../assets/image/img02.png" alt="" id="popupImg1">
                 <img src="../assets/image/img03.png" alt="" id="popupImg2" @click="closeP(1)">
-                <img src="../assets/image/img01.png" alt="" id="popupImg3" @click="Todownload">
+                <img src="../assets/image/img01.png" alt="" id="popupImg3" @click="Todownload()">
             </div>
         </div>
 
@@ -63,7 +63,7 @@
                     <img src="../assets/image/img05.png" alt="" id="jbImg">
                 </div>
                 <img src="../assets/image/img17.png" alt="" id="xzButton1" @click="closeP(2)">
-                <img src="../assets/image/img18.png" alt="" id="xzButton2" @click="Todownload">
+                <img src="../assets/image/img18.png" alt="" id="xzButton2" @click="Todownload()">
             </div>
         </div>
 
@@ -532,8 +532,11 @@ export default {
             this.showGuide2 = false;
         },
         Todownload(){
+            console.log(window.playableSDK);
             window.playableSDK.openAppStore();
-            // window.location.href = "https://ad.toutiao.com/advertiser_package/dl/682e9ea2_1651167049547788_1574771897208"
+        },
+        abv(){
+            console.log("bbbbb")
         }
 
     },
