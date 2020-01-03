@@ -23,11 +23,11 @@
             <img src="../assets/image/img12.png" alt="" @load="topImgLoad">
         </div>
         <div id="box" v-show="showBox">
-            <div v-for="(item,index) in 9" :key="index" class="pos" :id="'pos'+(index+1)">
+            <div v-for="(item,index) in 9" :key="index+1" class="pos" :id="'pos'+(index+1)">
                 <div id="ProfitDom"  :class="listState[index].show?'ProfitAnima':''"><img src="../assets/image/img14.png" alt=""><span>+{{currentNum[index]}}</span></div>
             </div>
      
-            <div v-for="(item,index) in 9" :key="index" v-show="listState[index].show" class="pos-span" :id="'span'+(index+1)" :style="{left:listState[index].grade==1?coordinate[index].left+'px':coordinate[index].left-12+'px',top:coordinate[index].top+'px'}" @touchstart.prevent="touchstart(index+1)" @touchmove.prevent="touchmove(index+1)" @touchend.prevent="touchend(index+1)"><img :src="listState[index].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
+            <div v-for="(item,index) in 9" :key="index+20" v-show="listState[index].show" class="pos-span" :id="'span'+(index+1)" :style="{left:listState[index].grade==1?coordinate[index].left+'px':coordinate[index].left-12+'px',top:coordinate[index].top+'px'}" @touchstart.prevent="touchstart(index+1)" @touchmove.prevent="touchmove(index+1)" @touchend.prevent="touchend(index+1)"><img :src="listState[index].grade==1?require('../assets/image/img06.png'):require('../assets/image/img05.png')" alt=""></div>
 
         </div>
         <div id="buttonDom">
@@ -44,12 +44,12 @@
             </div>
         </div>
         <!-- 中奖了 -->
-        <div id="winning" v-show="showWin">
+        <div id="winning" v-show="showWin" @click="Todownload()">
             <img src="../assets/image/img06.png" alt="" id="popupHB">
             <div id="centerBox">
                 <img src="../assets/image/img02.png" alt="" id="popupImg1">
-                <img src="../assets/image/img03.png" alt="" id="popupImg2" @click="closeP(1)">
-                <img src="../assets/image/img01.png" alt="" id="popupImg3" @click="Todownload()">
+                <img src="../assets/image/img03.png" alt="" id="popupImg2">
+                <img src="../assets/image/img01.png" alt="" id="popupImg3" >
             </div>
         </div>
 
@@ -180,6 +180,7 @@ export default {
             showGuide2:false,
             guideText1:"点击种植福袋",
             showGuide1:true,
+            jxwNum:0,//点击继续玩次数，第二次要去下载
         }
     },
 
@@ -188,19 +189,13 @@ export default {
     },
 
     created(){
-        if(this.$route.query.open=="openvc"){
-            const vConsole = new Vconsole()
-            Vue.use(vConsole)
-        }
+        
     },
 
     mounted(){
-
+     
     },
 
-    computed(){
-
-    },
     methods:{
         getDom(){
             this.bodyW = $('body').width();
@@ -522,9 +517,15 @@ export default {
         closeP(index){
             if(index==1){
                 this.showWin = false;
+            }else if(index==2){
+                if(this.jxwNum==0){
+                  this.showUpgraded = false;
+                  this.jxwNum++;
+                }else{
+                  this.showUpgraded = false;
+                  this.Todownload();
+                }
 
-            }else{
-                this.showUpgraded = false;
             }
         },
         randomNum(minNum=100,maxNum=500){ 
@@ -534,13 +535,9 @@ export default {
             this.showGuide2 = false;
         },
         Todownload(){
-            console.log(window.playableSDK);
-            window.playableSDK.openAppStore();
+            console.log("去下载");
+            window.playableSDK && window.playableSDK.openAppStore && window.playableSDK.openAppStore();
         },
-        abv(){
-            console.log("bbbbb")
-        }
-
     },
 
     filters:{
