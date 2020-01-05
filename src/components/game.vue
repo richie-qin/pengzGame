@@ -535,8 +535,7 @@ export default {
             this.showGuide2 = false;
         },
         Todownload(){
-            console.log("去下载");
-            window.playableSDK && window.playableSDK.openAppStore && window.playableSDK.openAppStore();
+            window.openAppStore();
         },
     },
 

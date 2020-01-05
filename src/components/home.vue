@@ -20,7 +20,6 @@ export default {
            event.stopPropagation();//阻止冒泡
 
            event.preventDefault();//阻止默认行为
-            window.playableSDK.openAppStore();
         })
     },
     methods:{
@@ -30,9 +29,6 @@ export default {
            event.stopPropagation();//阻止冒泡
 
            event.preventDefault();//阻止默认行为
-            console.log(window.playableSDK.openAppStore);
-            alert("存在openAppStore方法："+window.playableSDK.openAppStore);
-            window.playableSDK.openAppStore();
         }
     }
 }
