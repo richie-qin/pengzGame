@@ -544,62 +544,7 @@ export default {
     },
 
     watch:{
-        // intIntegral(val,old){
-        //     if(val>=0&&val<4999){
-        //         if(this.intGrade<1){
-        //             this.intGrade = 1;
-        //         }
-        //     }else if(val>=5000&&val<9999){
-        //         if(this.intGrade<2){
-        //             this.intGrade = 2;
-        //         }
-        //     }else if(val>=10000&&val<14999){
-        //         if(this.intGrade<3){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 3;
-        //         }
-        //     }else if(val>=15000&&val<19999){
-        //         if(this.intGrade<4){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 4;
-        //         }
-        //     }else if(val>=20000&&val<24999){
-        //         if(this.intGrade<5){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 5;
-        //         }
-        //     }else if(val>=25000&&val<29999){
-        //         if(this.intGrade<6){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 6;
-        //         }
-        //     }else if(val>=30000&&val<34999){
-        //         if(this.intGrade<7){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 7;
-        //         }
-        //     }else if(val>=35000&&val<39999){
-        //         if(this.intGrade<8){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 8;
-        //         }
-        //     }else if(val>=40000&&val<44999){
-        //         if(this.intGrade<9){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 9;
-        //         }
-        //     }else if(val>=45000&&val<49999){
-        //         if(this.intGrade<10){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 10;
-        //         }
-        //     }else if(val>=50000&&val<54999){
-        //         if(this.intGrade<11){
-        //             this.showUpgraded = true;
-        //             this.intGrade = 11;
-        //         }
-        //     }
-        // }
+        
     },
 
     //离开路由，不可截停
